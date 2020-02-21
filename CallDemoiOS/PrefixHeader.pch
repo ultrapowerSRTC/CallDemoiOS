@@ -1,0 +1,112 @@
+//
+//  PrefixHeader.pch
+//  CallDemoiOS
+//
+//  Created by feinno on 2020/2/20.
+//  Copyright © 2020 feinno. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+// 判断设备类型
+// iPhone
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+// iPad
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+// 设备适配
+#define kScreenWidth [[UIScreen mainScreen] bounds].size.width
+#define kScreenHeight [[UIScreen mainScreen] bounds].size.height
+
+//判断iPHoneX/iPhoneXs
+#define IS_IPHONE_X (CGSizeEqualToSize(CGSizeMake(375, 812), [UIScreen mainScreen].bounds.size))
+//判断iPHoneXr
+#define IS_IPHONE_Xr (CGSizeEqualToSize(CGSizeMake(414, 896), [UIScreen mainScreen].bounds.size))
+//判断iPhoneXs Max
+#define IS_IPHONE_Xs_Max (CGSizeEqualToSize(CGSizeMake(375, 896), [UIScreen mainScreen].bounds.size))
+
+#define iPhoneX (IS_IPHONE_X || IS_IPHONE_Xr || IS_IPHONE_Xs_Max)
+
+
+#define StatusBarHeight (iPhoneX ? 44.f : 20.f)
+
+#define NavigationBarHeight 44.f
+
+#define WholeNavigationBarHeight (StatusBarHeight + NavigationBarHeight)
+
+#define BottomSafeHeight (iPhoneX ? 34.f : 0.f)
+
+#define TabbarHeight 49.f
+
+#define WholeTabbarHeight TabbarHeight + BottomSafeHeight
+
+
+/** hex颜色 不带透明值 */
+#define ColorFromHex(hexColor) ([UIColor colorWithRed:((float)((hexColor & 0xFF0000) >> 16))/255.0 green:((float)((hexColor & 0xFF00) >> 8))/255.0 blue:((float)(hexColor & 0xFF))/255.0 alpha:1.0])
+/** RGB颜色 */
+#define RGBColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define RGBAColor(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/1.0]
+/** 线条颜色 */
+#define Line_Color ColorFromHex(0xf1f1f1)
+/** 主色调 */
+#define Main_Color ColorFromHex(0xFFB27D)
+/** 浅灰色背景颜色 */
+#define BackGroundColor ColorFromHex(0xf1f1f1)
+/** 字体 */
+#define FONT(S) ([UIFont systemFontOfSize:S])
+
+
+#ifdef DEBUG
+#define DELog(FORMAT,...) fprintf(stderr,"\n%s line:%d content:\n%s\n", __FUNCTION__, __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#else
+#define DELog(FORMAT,...)
+#endif
+
+// 循环引用
+#define WeakObj(o) autoreleasepool{} __weak typeof(o) o##Weak = o;
+#define StrongObj(o) autoreleasepool{} __strong typeof(o) o = o##Weak;
+
+#define SRTCApp ((AppDelegate *)[UIApplication sharedApplication].delegate)
+#define SRTCUserDefaults [NSUserDefaults standardUserDefaults]
+
+// 本地存储key
+#define kMyUserData         @"kMyUserData"
+
+
+#if __OBJC__
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+Extension.h"
+#import "UILabel+Extension.h"
+#import "NSString+Extension.h"
+#import "NSData+Extension.h"
+#import "UIAlertController+Extension.h"
+#import "UIStoryboard+Extension.h"
+#import "UIImage+Extension.h"
+#import "UIView+Extension.h"
+#import "UIView+XH.h"
+
+#import "Masonry.h"
+
+#import <SRTCLib/FeinnoMegLib.h>
+
+
+#import "InterFaceHeader.h"
+#import "AppDelegate.h"
+#import "BaseViewController.h"
+#import "BaseTypeView.h"
+#import "MyUser.h"
+
+
+
+
+
+
+#endif
+
+
+
+#endif /* PrefixHeader_pch */
